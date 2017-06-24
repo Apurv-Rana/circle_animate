@@ -1,0 +1,282 @@
+<html>
+
+<head>
+<style>
+body
+{
+margin:0;
+padding:0;
+}
+canvas{
+
+
+}
+</style>
+
+</head>
+
+
+
+
+<body>
+
+<canvas></canvas>
+
+<script>
+/*
+ function givecolor()
+{
+let red = Math.floor((Math.random() * 255));
+let blue = Math.floor((Math.random() * 255));
+let green = Math.floor((Math.random() * 255));
+
+let rgbvalues = [red , blue , green];
+return rgbvalues;
+
+};
+let canvas = document.querySelector('canvas');
+
+canvas.height=window.innerHeight;
+canvas.width=window.innerWidth;
+
+let c = canvas.getContext('2d');
+let k = function()
+{
+c.clearRect(0,0,innerWidth,innerHeight);
+for(let i=0;i<100;i++)
+{
+let givecolors = givecolor();
+let red = Math.floor((Math.random() * 900));
+let yellow = Math.floor((Math.random() * 600));
+let blue = Math.floor((Math.random() * 10));
+let green = Math.floor((Math.random() * 10));
+c.beginPath();
+c.arc(red,yellow,blue,0,Math.PI*2);
+c.stroke();
+c.strokeStyle=`rgb(${givecolors[0]},${givecolors[1]},${givecolors[2]})`;
+
+}};
+
+
+let a=setInterval(k, 1000);
+setTimeout(function()
+{clearInterval(a);},10000);*/
+
+/*
+
+
+
+var x=200;
+function animate()
+{
+requestAnimationFrame(animate);
+c.clearRect(0,0,innerWidth,innerHeight);
+c.beginPath();
+if(x>(innerWidth-1000))
+{x=0;
+}
+else
+{
+c.arc(x,x++,30,0,Math.PI*2);
+c.strokeStyle="blue";
+c.stroke();}
+}
+animate();
+
+*/
+
+let canvas = document.querySelector('canvas');
+
+canvas.height=window.innerHeight;
+canvas.width=window.innerWidth;
+
+let c = canvas.getContext('2d');
+/*let x=10;
+let y=10;
+let dx=4;
+let dy=4;
+let radius=10;
+function animate()
+{c.clearRect(0,0,innerWidth,innerHeight);
+c.beginPath();
+c.arc(x,y,radius,0,Math.PI*2);
+c.stroke();
+if(((y+radius)>window.innerHeight) || ((y-radius)<0))
+{
+dy=-dy;
+}
+if((x+radius)>window.innerWidth || (x-radius)<0)
+{
+dx=-dx;
+} 
+
+x=x+dx;
+y=y+dy;
+
+requestAnimationFrame(animate);
+
+}
+
+requestAnimationFrame(animate);*/
+
+// collide screen 
+
+
+
+let mouse = {
+x: undefined,
+y: undefined
+};
+
+window.addEventListener('mousemove',function(event){
+
+mouse.x=event.x;
+mouse.y=event.y;
+
+});
+
+
+
+
+
+let max_radius = 40;
+let min_radius =5;
+
+
+
+//
+
+function draw(x,y,radius,dx,dy)
+{this.j=1;
+this.x=x;
+this.y=y;
+this.radius=radius;
+this.dx=dx;
+this.dy=dy;
+this.givemecolor=`rgba(${Math.floor((Math.random() * 255))},${Math.floor((Math.random() * 255))},${Math.floor((Math.random() * 255))},0.8)`;
+
+
+this.drawCircle=function()
+{
+
+if(this.j==1){if((this.y)<(this.radius))
+{this.y+=(this.radius-this.y)
+}
+ if(((this.y)+(this.radius))>(window.innerHeight))
+{
+this.y-=this.radius;
+}
+if((this.x)<(this.radius))
+{this.x+=(this.radius-this.x)
+}
+ if(((this.x)+this.radius)>(window.innerWidth))
+{
+this.x-=this.radius;
+}}
+this.j++;
+c.beginPath();
+c.arc(this.x,this.y,this.radius,0,Math.PI*2);
+c.strokeStyle=`rgb(${Math.floor((Math.random() * 255))},${Math.floor((Math.random() * 255))},${Math.floor((Math.random() * 255))})`;
+c.fillStyle=this.givemecolor;
+c.fill();
+c.stroke();
+
+
+};
+
+this.update = function()
+{
+if(this.dx==0)
+{
+this.dx=4;
+}
+if(this.dy==0)
+{
+this.dy=2;
+}
+this.drawCircle(this.x,this.y,this.radius,this.dx,this.dy);
+
+if(((this.y+this.radius)>window.innerHeight) || ((this.y-this.radius)<0))
+{
+this.dy=-(this.dy);
+
+}
+if((this.x+this.radius)>window.innerWidth || (this.x-this.radius)<0)
+{
+this.dx=-(this.dx);
+} 
+
+this.x=this.x+this.dx;
+this.y=this.y+this.dy;
+
+
+if((mouse.x-this.x<50) && (mouse.x-this.x >-50) && (mouse.y-this.y<50) && (mouse.y-this.y >-50) )
+{if(this.radius<max_radius)
+{
+this.radius+=4;
+}
+}
+else if(this.radius>min_radius){
+
+this.radius-=4;
+}
+
+//mouse bounce 
+
+/*if(this.x+this.radius >(mouse.x-10) && this.x-this.radius < (mouse.x+10) )
+{
+this.dx=-(this.dx);
+
+}
+if(this.y+this.radius >(mouse.y-10) && this.y-this.radius<(mouse.y+10) )
+{
+this.dy=-(this.dy);
+
+}
+
+*/
+
+
+
+
+};
+
+
+}
+let firstCircle  = [];
+for(let i=0;i<1000;i++)
+{
+
+ firstCircle[i] = new draw( Math.floor((Math.random() * window.innerWidth)),  Math.floor((Math.random() * window.innerHeight)), Math.floor((Math.random() * 10)),1.8,2.8);
+
+firstCircle[i].drawCircle();
+
+}
+
+function animate()
+{//code goes here
+c.clearRect(0,0,innerWidth,innerHeight);
+
+
+for(let i=0;i<1000;i++)
+{
+
+ firstCircle[i].update();
+
+}
+requestAnimationFrame(animate);
+
+
+}
+requestAnimationFrame(animate);
+
+
+
+
+
+</script>
+
+</body>
+
+
+</html>
